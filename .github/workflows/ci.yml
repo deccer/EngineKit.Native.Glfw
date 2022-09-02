@@ -21,12 +21,12 @@ jobs:
 
     - name: Install GLFW
       run: |
-        sudo apt install libglfw3-dev
+        sudo apt install mesa libglfw3-dev
       if: matrix.os == 'ubuntu-latest'
 
     - name: Install GLFW
       run: |
-        brew install glfw
+        brew install mesa glfw
       if: matrix.os == 'macos-latest'
 
     - name: Setup .NET
