@@ -10,11 +10,6 @@ on:
 
 jobs:
   build:
-
-    env:
-      BUILD_CONFIG: 'Release'
-      SOLUTION: 'EngineKit.Native.Glfw.sln'
-
     strategy:
       fail-fast: false
       matrix:
@@ -36,7 +31,7 @@ jobs:
       run: nuget restore $SOLUTION
 
     - name: Build
-      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
+      run: dotnet build EngineKit.Native.Glfw.sln --configuration Release --no-restore
 
     - name: Run tests
-      run: dotnet test /p:Configuration=$env:BUILD_CONFIG --no-restore --verbosity normal
+      run: dotnet test EngineKit.Native.Glfw.sln /p:Configuration=Release --no-restore --verbosity normal
