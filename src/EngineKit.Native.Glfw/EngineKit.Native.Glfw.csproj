@@ -10,9 +10,9 @@
 
     <PropertyGroup>
         <PackageId>EngineKit.Native.Glfw</PackageId>
-        <Version>1.0.0</Version>
         <Authors>deccer</Authors>
         <Company>Graphics Programming</Company>
+        <PackageProjectUrl>https://github.com/deccer/EngineKit.Native.Glfw</PackageProjectUrl>
     </PropertyGroup>
 
     <PropertyGroup>
