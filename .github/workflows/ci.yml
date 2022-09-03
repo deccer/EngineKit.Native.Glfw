@@ -57,5 +57,5 @@ jobs:
     - name: Build
       run: dotnet build EngineKit.Native.Glfw.sln --configuration Release --no-restore
 
-    - name: Run tests
-      run: dotnet test EngineKit.Native.Glfw.sln /p:Configuration=Release --no-restore --verbosity normal
+#    - name: Run tests
+#      run: dotnet test EngineKit.Native.Glfw.sln /p:Configuration=Release --no-restore --verbosity normal
