@@ -24,7 +24,6 @@ jobs:
         sudo add-apt-repository ppa:oibaf/graphics-drivers
         sudo apt update
         sudo apt upgrade
-        sudo apt install mesa
       if: matrix.os == 'ubuntu-latest'
 
     - name: Install Mesa
