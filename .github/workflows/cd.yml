@@ -4,12 +4,6 @@ on:
   create:
     branches:
       - release/**
-  push:
-    branches:
-    - main
-  pull_request:
-    branches:
-    - main
 
 jobs:
   build:
@@ -40,7 +34,7 @@ jobs:
       run: dotnet restore EngineKit.Native.Glfw.sln
 
     - name: Build
-      run: dotnet build EngineKit.Native.Glfw.sln --configuration Release --no-restore
+      run: dotnet pack src/EngineKit.Native.Glfw/EngineKit.Native.Glfw.csproj --configuration Release -p:Version=$BUILD_VERSION --no-restore
 
     - name: Publish
       if: startsWith(github.ref, 'refs/heads/release')
