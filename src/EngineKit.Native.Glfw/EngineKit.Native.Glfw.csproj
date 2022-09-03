@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <IsPackable>true</IsPackable>
+        <PackFrameworkReferences>false</PackFrameworkReferences>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -36,12 +37,13 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>
-        <Content Include="..\..\lib\glfw\glfw3.dll" Pack="true" Condition="'$(CI)' == 'true'">
+        <Content Include="..\..\lib\glfw\glfw3.dll" Pack="true">
+            <PackagePath>native/</PackagePath>
             <Link>glfw3.dll</Link>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <Visible>false</Visible>
         </Content>
-        <Content Include="..\..\README.md" Pack="true" Condition="'$(CI)' == 'true'">
+        <Content Include="..\..\README.md" Pack="true">
             <Link>glfw3.dll</Link>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <Visible>false</Visible>
