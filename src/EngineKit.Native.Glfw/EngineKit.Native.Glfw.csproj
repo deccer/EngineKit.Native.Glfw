@@ -36,6 +36,16 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>
+        <Content Include="..\..\lib\glfw\glfw3.dll" Pack="true" Condition="'$(CI)' == 'true'">
+            <Link>glfw3.dll</Link>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <Visible>false</Visible>
+        </Content>
+        <Content Include="..\..\README.md" Pack="true" Condition="'$(CI)' == 'true'">
+            <Link>glfw3.dll</Link>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <Visible>false</Visible>
+        </Content>
     </ItemGroup>
 
 </Project>
