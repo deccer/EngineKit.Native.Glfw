@@ -52,7 +52,7 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.5
 
     - name: Restore dependencies
-      run: nuget restore EngineKit.Native.Glfw.sln
+      run: dotnet restore EngineKit.Native.Glfw.sln
 
     - name: Build
       run: dotnet build EngineKit.Native.Glfw.sln --configuration Release --no-restore
