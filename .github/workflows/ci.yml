@@ -19,9 +19,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Mesa
+      run: |
+        sudo add-apt-repository ppa:oibaf/graphics-drivers
+        sudo apt update
+        sudo apt upgrade
+        sudo apt install mesa
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Install Mesa
+      run: |
+        brew install mesa
+      if: matrix.os == 'macos-latest'
+
     - name: Install GLFW
       run: |
-        sudo apt install mesa libglfw3-dev
+        sudo apt install  libglfw3-dev
       if: matrix.os == 'ubuntu-latest'
 
     - name: Install GLFW
@@ -38,7 +51,7 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.5
 
     - name: Restore dependencies
-      run: nuget restore $SOLUTION
+      run: nuget restore EngineKit.Native.Glfw.sln
 
     - name: Build
       run: dotnet build EngineKit.Native.Glfw.sln --configuration Release --no-restore
