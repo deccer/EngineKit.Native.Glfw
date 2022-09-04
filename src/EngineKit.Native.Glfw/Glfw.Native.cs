@@ -76,8 +76,13 @@ public static unsafe partial class Glfw
 
     private static readonly delegate* <IntPtr, double, double, void> _glfwSetCursorPos = &GlfwSetCursorPos;
 
+    private static readonly delegate* <IntPtr, Key, KeyAction> _glfwGetKey = &GlfwGetKey;
+
     [DllImport(GlfwLibrary, EntryPoint = "glfwSetCursorPos")]
-    private static extern void GlfwSetCursorPos(IntPtr windowHadle, double x, double y);
+    private static extern void GlfwSetCursorPos(IntPtr windowHandle, double x, double y);
+
+    [DllImport(GlfwLibrary, EntryPoint = "glfwGetKey")]
+    private static extern KeyAction GlfwGetKey(IntPtr windowHandle, Key key);
 
     [DllImport(GlfwLibrary, EntryPoint = "glfwInit")]
     private static extern int GlfwInit();

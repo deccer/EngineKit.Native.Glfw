@@ -20,6 +20,17 @@ public static unsafe partial class Glfw
         return _glfwRawMouseMotionSupported();
     }
 
+    public static KeyAction GetKey(IntPtr windowHandle, Key key)
+    {
+        return _glfwGetKey(windowHandle, key);
+    }
+
+    public static bool GetKeyPressed(IntPtr windowHandle, Key key)
+    {
+        var keyAction = _glfwGetKey(windowHandle, key);
+        return keyAction is KeyAction.Pressed or KeyAction.Repeat;
+    }
+
     public static void SetInputMode(
         IntPtr windowHandle,
         InputMode inputMode,
