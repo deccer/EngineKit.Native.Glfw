@@ -14,6 +14,7 @@
         <Authors>deccer</Authors>
         <Company>Graphics Programming</Company>
         <PackageProjectUrl>https://github.com/deccer/EngineKit.Native.Glfw</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/deccer/EngineKit.Native.Glfw</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -48,6 +49,13 @@
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <Visible>false</Visible>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
