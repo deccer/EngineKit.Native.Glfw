@@ -3,7 +3,7 @@ using Xunit;
 
 namespace EngineKit.Native.Glfw.UnitTests;
 
-public class UnitTest1
+public class InitTests
 {
     [Fact]
     public void CanInitializeGlfw()
