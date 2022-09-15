@@ -5,15 +5,16 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <IsPackable>true</IsPackable>
-        <PackFrameworkReferences>false</PackFrameworkReferences>
     </PropertyGroup>
 
     <PropertyGroup>
         <PackageId>EngineKit.Native.Glfw</PackageId>
+        <IsPackable>true</IsPackable>
+        <PackFrameworkReferences>false</PackFrameworkReferences>
         <Authors>deccer</Authors>
         <Company>Graphics Programming</Company>
         <PackageProjectUrl>https://github.com/deccer/EngineKit.Native.Glfw</PackageProjectUrl>
+        <PackageIconUrl>https://github.com/deccer/EngineKit/blob/main/enginekit-icon.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/deccer/EngineKit.Native.Glfw</RepositoryUrl>
     </PropertyGroup>
 
@@ -38,14 +39,17 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>
-        <Content Include="..\..\lib\glfw\glfw3.dll" Pack="true">
-            <PackagePath>native/</PackagePath>
+        <Content Include="..\..\lib\glfw\glfw3.dll">
+            <Pack>true</Pack>
+            <PackagePath>runtimes/win-x64/native/</PackagePath>
             <Link>glfw3.dll</Link>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>
-        <Content Include="..\..\README.md" Pack="true">
-            <Link>glfw3.dll</Link>
+        <Content Include="..\..\README.md">
+            <Pack>true</Pack>
+            <Link>README.md</Link>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <Visible>false</Visible>
         </Content>
