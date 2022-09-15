@@ -14,7 +14,7 @@
         <Authors>deccer</Authors>
         <Company>Graphics Programming</Company>
         <PackageProjectUrl>https://github.com/deccer/EngineKit.Native.Glfw</PackageProjectUrl>
-        <PackageIconUrl>https://github.com/deccer/EngineKit/blob/main/enginekit-icon.png</PackageIconUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/deccer/EngineKit/main/enginekit-icon.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/deccer/EngineKit.Native.Glfw</RepositoryUrl>
     </PropertyGroup>
 
