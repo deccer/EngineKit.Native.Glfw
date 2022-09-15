@@ -5,23 +5,6 @@ namespace EngineKit.Native.Glfw;
 
 public static unsafe partial class Glfw
 {
-    private static readonly IntPtr _glfwLibraryHandle;
-
-    static Glfw()
-    {
-        var libraryName = "glfw3";
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            libraryName = "libglfw.3.dylib";
-        }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            libraryName = "libglfw.so.3";
-        }
-
-        _glfwLibraryHandle = NativeLibrary.Load(libraryName);
-    }
-
     private static delegate* unmanaged<int> _glfwInitDelegate = &glfwInit;
 
     private static delegate* unmanaged<void> _glfwTerminateDelegate = &glfwTerminate;

@@ -1,18 +1,47 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace EngineKit.Native.Glfw;
 
 public static unsafe partial class Glfw
 {
+    private static IntPtr _glfwLibraryHandle;
+    private static bool _glfwLibraryLoaded;
+
     public static bool Init()
     {
+        if (!_glfwLibraryLoaded)
+        {
+            var libraryName = "glfw3";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                libraryName = "libglfw.3.dylib";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                libraryName = "libglfw.so.3";
+            }
+
+            if (!NativeLibrary.TryLoad(libraryName, out _glfwLibraryHandle))
+            {
+                Debug.WriteLine($"GLFW: Unable to load {libraryName}");
+                return false;
+            }
+
+            _glfwLibraryLoaded = true;
+        }
+
         return _glfwInitDelegate() == 1;
     }
 
     public static void Terminate()
     {
         _glfwTerminateDelegate();
+        if (_glfwLibraryLoaded)
+        {
+            NativeLibrary.Free(_glfwLibraryHandle);
+        }
     }
 
     public static bool IsRawMouseMotionSupported()
