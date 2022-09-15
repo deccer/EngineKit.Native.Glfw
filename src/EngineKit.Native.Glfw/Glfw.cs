@@ -253,7 +253,7 @@ public static unsafe partial class Glfw
         var cursorPositionCallbackPtr = cursorPositionCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(cursorPositionCallback);
-        _glfwSetCursorPositionCallbackDelegate(windowHandle, cursorPositionCallbackPtr);
+        _glfwSetCursorPosCallbackDelegate(windowHandle, cursorPositionCallbackPtr);
     }
 
     public static void SetCursorEnterCallback(
