@@ -7,27 +7,27 @@ public static unsafe partial class Glfw
 {
     public static bool Init()
     {
-        return _glfwInit() == 1;
+        return _glfwInitDelegate() == 1;
     }
 
     public static void Terminate()
     {
-        _glfwTerminate();
+        _glfwTerminateDelegate();
     }
 
     public static bool IsRawMouseMotionSupported()
     {
-        return _glfwRawMouseMotionSupported();
+        return _glfwRawMouseMotionSupportedDelegate();
     }
 
     public static KeyAction GetKey(IntPtr windowHandle, Key key)
     {
-        return _glfwGetKey(windowHandle, key);
+        return _glfwGetKeyDelegate(windowHandle, key);
     }
 
     public static bool GetKeyPressed(IntPtr windowHandle, Key key)
     {
-        var keyAction = _glfwGetKey(windowHandle, key);
+        var keyAction = _glfwGetKeyDelegate(windowHandle, key);
         return keyAction is KeyAction.Pressed or KeyAction.Repeat;
     }
 
@@ -36,7 +36,7 @@ public static unsafe partial class Glfw
         InputMode inputMode,
         int value)
     {
-        _glfwSetInputMode(windowHandle, inputMode, value);
+        _glfwSetInputModeDelegate(windowHandle, inputMode, value);
     }
 
     public static void GetCursorPos(
@@ -46,7 +46,7 @@ public static unsafe partial class Glfw
     {
         double cursorPosX;
         double cursorPosY;
-        _glfwGetCursorPos(windowHandle, &cursorPosX, &cursorPosY);
+        _glfwGetCursorPosDelegate(windowHandle, &cursorPosX, &cursorPosY);
         x = (int)cursorPosX;
         y = (int)cursorPosY;
     }
@@ -56,49 +56,49 @@ public static unsafe partial class Glfw
         float x,
         float y)
     {
-        _glfwSetCursorPos(windowHandle, x, y);
+        _glfwSetCursorPosDelegate(windowHandle, x, y);
     }
 
     public static void WindowHint(
         WindowInitHint windowInitHint,
         bool value)
     {
-        _glfwWindowHint((int)windowInitHint, value ? 1 : 0);
+        _glfwWindowHintDelegate((int)windowInitHint, value ? 1 : 0);
     }
 
     public static void WindowHint(
         WindowInitHint windowInitHint,
         int value)
     {
-        _glfwWindowHint((int)windowInitHint, value);
+        _glfwWindowHintDelegate((int)windowInitHint, value);
     }
 
     public static void WindowHint(
         WindowInitHint windowInitHint,
         ClientApi clientApi)
     {
-        _glfwWindowHint((int)windowInitHint, (int)clientApi);
+        _glfwWindowHintDelegate((int)windowInitHint, (int)clientApi);
     }
 
     public static void WindowHint(
         WindowOpenGLContextHint openglContextHint,
         int value)
     {
-        _glfwWindowHint((int)openglContextHint, value);
+        _glfwWindowHintDelegate((int)openglContextHint, value);
     }
 
     public static void WindowHint(
         WindowOpenGLContextHint openglContextHint,
         bool value)
     {
-        _glfwWindowHint((int)openglContextHint, value ? 1 : 0);
+        _glfwWindowHintDelegate((int)openglContextHint, value ? 1 : 0);
     }
 
     public static void WindowHint(
         WindowOpenGLContextHint openglContextHint,
         OpenGLProfile openGlProfile)
     {
-        _glfwWindowHint((int)openglContextHint, (int)openGlProfile);
+        _glfwWindowHintDelegate((int)openglContextHint, (int)openGlProfile);
     }
 
     public static IntPtr CreateWindow(
@@ -109,7 +109,7 @@ public static unsafe partial class Glfw
         IntPtr sharedHandle)
     {
         var titlePtr = Marshal.StringToHGlobalAnsi(title);
-        var windowHandle = _glfwCreateWindow(
+        var windowHandle = _glfwCreateWindowDelegate(
             width,
             height,
             titlePtr,
@@ -121,40 +121,40 @@ public static unsafe partial class Glfw
 
     public static void DestroyWindow(IntPtr windowHandle)
     {
-        _glfwDestroyWindow(windowHandle);
+        _glfwDestroyWindowDelegate(windowHandle);
     }
 
     public static bool ShouldWindowClose(IntPtr windowHandle)
     {
-        return _glfwWindowShouldClose(windowHandle) == 1;
+        return _glfwWindowShouldCloseDelegate(windowHandle) == 1;
     }
 
     public static void SetWindowShouldClose(
         IntPtr windowHandle,
         int closeFlag)
     {
-        _glfwSetWindowShouldClose(windowHandle, closeFlag);
+        _glfwSetWindowShouldCloseDelegate(windowHandle, closeFlag);
     }
 
     public static void PollEvents()
     {
-        _glfwPollEvents();
+        _glfwPollEventsDelegate();
     }
 
     public static void WaitEventsTimeout(double timeout)
     {
-        _glfwWaitEventsTimeout(timeout);
+        _glfwWaitEventsTimeoutDelegate(timeout);
     }
 
     public static void SwapBuffers(IntPtr windowHandle)
     {
-        _glfwSwapBuffers(windowHandle);
+        _glfwSwapBuffersDelegate(windowHandle);
     }
 
     public static IntPtr GetProcAddress(string functionName)
     {
         var functionNamePtr = Marshal.StringToHGlobalAnsi(functionName);
-        var functionAddress = _glfwGetProcAddress(functionNamePtr);
+        var functionAddress = _glfwGetProcAddressDelegate(functionNamePtr);
         Marshal.FreeHGlobal(functionNamePtr);
 
         return functionAddress;
@@ -162,12 +162,12 @@ public static unsafe partial class Glfw
 
     public static void MakeContextCurrent(IntPtr windowHandle)
     {
-        _glfwMakeContextCurrent(windowHandle);
+        _glfwMakeContextCurrentDelegate(windowHandle);
     }
 
     public static void SwapInterval(int interval)
     {
-        _glfwSwapInterval(interval);
+        _glfwSwapIntervalDelegate(interval);
     }
 
     public static void SetWindowPos(
@@ -175,7 +175,7 @@ public static unsafe partial class Glfw
         int left,
         int top)
     {
-        _glfwSetWindowPos(windowHandle, left, top);
+        _glfwSetWindowPosDelegate(windowHandle, left, top);
     }
 
     public static void SetWindowSize(
@@ -183,17 +183,17 @@ public static unsafe partial class Glfw
         int width,
         int height)
     {
-        _glfwSetWindowSize(windowHandle, width, height);
+        _glfwSetWindowSizeDelegate(windowHandle, width, height);
     }
 
     public static IntPtr GetPrimaryMonitor()
     {
-        return _glfwGetPrimaryMonitor();
+        return _glfwGetPrimaryMonitorDelegate();
     }
 
     public static VideoMode GetVideoMode(IntPtr monitorHandle)
     {
-        var videoMode = _glfwGetVideoMode(monitorHandle);
+        var videoMode = _glfwGetVideoModeDelegate(monitorHandle);
         return Marshal.PtrToStructure<VideoMode>(videoMode);
     }
 
@@ -204,7 +204,7 @@ public static unsafe partial class Glfw
         var keyCallbackPtr = keyCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(keyCallback);
-        _glfwSetKeyCallback(windowHandle, keyCallbackPtr);
+        _glfwSetKeyCallbackDelegate(windowHandle, keyCallbackPtr);
     }
 
     public static void SetCharCallback(
@@ -214,7 +214,7 @@ public static unsafe partial class Glfw
         var charCallbackPtr = charCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(charCallback);
-        _glfwSetCharCallback(windowHandle, charCallbackPtr);
+        _glfwSetCharCallbackDelegate(windowHandle, charCallbackPtr);
     }
 
     public static void SetCursorPositionCallback(
@@ -224,7 +224,7 @@ public static unsafe partial class Glfw
         var cursorPositionCallbackPtr = cursorPositionCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(cursorPositionCallback);
-        _glfwSetCursorPositionCallback(windowHandle, cursorPositionCallbackPtr);
+        _glfwSetCursorPositionCallbackDelegate(windowHandle, cursorPositionCallbackPtr);
     }
 
     public static void SetCursorEnterCallback(
@@ -234,7 +234,7 @@ public static unsafe partial class Glfw
         var cursorEnterCallbackPtr = cursorEnterCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(cursorEnterCallback);
-        _glfwSetCursorEnterCallback(windowHandle, cursorEnterCallbackPtr);
+        _glfwSetCursorEnterCallbackDelegate(windowHandle, cursorEnterCallbackPtr);
     }
 
     public static void SetMouseButtonCallback(
@@ -244,7 +244,7 @@ public static unsafe partial class Glfw
         var mouseButtonCallbackPtr = mouseButtonCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(mouseButtonCallback);
-        _glfwSetMouseButtonCallback(windowHandle, mouseButtonCallbackPtr);
+        _glfwSetMouseButtonCallbackDelegate(windowHandle, mouseButtonCallbackPtr);
     }
 
     public static void SetWindowSizeCallback(
@@ -254,7 +254,7 @@ public static unsafe partial class Glfw
         var sizeWindowCallbackPtr = windowSizeCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(windowSizeCallback);
-        _glfwSetWindowSizeCallback(windowHandle, sizeWindowCallbackPtr);
+        _glfwSetWindowSizeCallbackDelegate(windowHandle, sizeWindowCallbackPtr);
     }
 
     public static void SetFramebufferSizeCallback(
@@ -264,12 +264,12 @@ public static unsafe partial class Glfw
         var framebufferSizeCallbackPtr = framebufferSizeCallback == null
             ? IntPtr.Zero
             : Marshal.GetFunctionPointerForDelegate(framebufferSizeCallback);
-        _glfwSetFramebufferSizeCallback(windowHandle, framebufferSizeCallbackPtr);
+        _glfwSetFramebufferSizeCallbackDelegate(windowHandle, framebufferSizeCallbackPtr);
     }
 
     public static float GetTime()
     {
-        return (float)_glfwGetTime();
+        return (float)_glfwGetTimeDelegate();
     }
 
 
@@ -280,7 +280,7 @@ public static unsafe partial class Glfw
     {
         int width;
         int height;
-        _glfwGetFramebufferSize(windowHandle, &width, &height);
+        _glfwGetFramebufferSizeDelegate(windowHandle, &width, &height);
         framebufferWidth = width;
         framebufferHeight = height;
     }

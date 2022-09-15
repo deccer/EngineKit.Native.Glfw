@@ -5,199 +5,356 @@ namespace EngineKit.Native.Glfw;
 
 public static unsafe partial class Glfw
 {
-#if PLATFORM_WINDOWS
-    private const string GlfwLibrary = "glfw3";
-#elif PLATFORM_LINUX
-    private const string GlfwLibrary = "glfw.so.3";
-#elif PLATFORM_OSX
-    private const string GlfwLibrary = "glfw.3.dylib";
-#endif
+    private static readonly IntPtr _glfwLibraryHandle;
 
-    private static readonly delegate* <int> _glfwInit = &GlfwInit;
+    static Glfw()
+    {
+        var libraryName = "glfw3";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            libraryName = "libglfw.3.dylib";
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            libraryName = "libglfw.so.3";
+        }
 
-    private static readonly delegate* <void> _glfwTerminate = &GlfwTerminate;
+        _glfwLibraryHandle = NativeLibrary.Load(libraryName);
+    }
 
-    private static readonly delegate* <bool> _glfwRawMouseMotionSupported = &GlfwRawMouseMotionSupported;
+    private static delegate* unmanaged<int> _glfwInitDelegate = &glfwInit;
 
-    private static readonly delegate* <IntPtr, InputMode, int, void> _glfwSetInputMode = &GlfwSetInputMode;
+    private static delegate* unmanaged<void> _glfwTerminateDelegate = &glfwTerminate;
 
-    private static readonly delegate* <int, void> _glfwSwapInterval = &GlfwSwapInterval;
+    private static delegate* unmanaged<bool> _glfwRawMouseMotionSupportedDelegate = &glfwRawMouseMotionSupported;
 
-    private static readonly delegate* <IntPtr, double*, double*, void> _glfwGetCursorPos = &GlfwGetCursorPos;
+    private static delegate* unmanaged<IntPtr, InputMode, int, void> _glfwSetInputModeDelegate = &glfwSetInputMode;
 
-    private static readonly delegate* <int, int, void> _glfwWindowHint = &GlfwWindowHint;
+    private static delegate* unmanaged<int, void> _glfwSwapIntervalDelegate = &glfwSwapInterval;
 
-    private static readonly delegate* <int, int, IntPtr, IntPtr, IntPtr, IntPtr> _glfwCreateWindow = &GlfwCreateWindow;
+    private static delegate* unmanaged<IntPtr, double*, double*, void> _glfwGetCursorPosDelegate = &glfwGetCursorPos;
 
-    private static readonly delegate* <IntPtr, void> _glfwDestroyWindow = &GlfwDestroyWindow;
+    private static delegate* unmanaged<int, int, void> _glfwWindowHintDelegate = &glfwWindowHint;
 
-    private static readonly delegate* <IntPtr, int> _glfwWindowShouldClose = &GlfwWindowShouldClose;
+    private static delegate* unmanaged<int, int, IntPtr, IntPtr, IntPtr, IntPtr> _glfwCreateWindowDelegate = &glfwCreateWindow;
 
-    private static readonly delegate* <IntPtr, int, void> _glfwSetWindowShouldClose = &GlfwSetWindowShouldClose;
+    private static delegate* unmanaged<IntPtr, void> _glfwDestroyWindowDelegate = &glfwDestroyWindow;
 
-    private static readonly delegate* <void> _glfwPollEvents = &GlfwPollEvents;
+    private static delegate* unmanaged<IntPtr, int> _glfwWindowShouldCloseDelegate = &glfwWindowShouldClose;
 
-    private static readonly delegate* <double, void> _glfwWaitEventsTimeout = &GlfwWaitEventsTimeout;
+    private static delegate* unmanaged<IntPtr, int, void> _glfwSetWindowShouldCloseDelegate = &glfwSetWindowShouldClose;
 
-    private static readonly delegate* <IntPtr, void> _glfwSwapBuffers = &GlfwSwapBuffers;
+    private static delegate* unmanaged<void> _glfwPollEventsDelegate = &glfwPollEvents;
 
-    private static readonly delegate* <IntPtr, IntPtr> _glfwGetProcAddress = &GlfwGetProcAddress;
+    private static delegate* unmanaged<double, void> _glfwWaitEventsTimeoutDelegate = &glfwWaitEventsTimeout;
 
-    private static readonly delegate* <IntPtr, void> _glfwMakeContextCurrent = &GlfwMakeContextCurrent;
+    private static delegate* unmanaged<IntPtr, void> _glfwSwapBuffersDelegate = &glfwSwapBuffers;
 
-    private static readonly delegate* <IntPtr, int, int, void> _glfwSetWindowPos = &GlfwSetWindowPos;
+    private static delegate* unmanaged<IntPtr, IntPtr> _glfwGetProcAddressDelegate = &glfwGetProcAddress;
 
-    private static readonly delegate* <IntPtr, int, int, void> _glfwSetWindowSize = &GlfwSetWindowSize;
+    private static delegate* unmanaged<IntPtr, void> _glfwMakeContextCurrentDelegate = &glfwMakeContextCurrent;
 
-    private static readonly delegate* <IntPtr> _glfwGetPrimaryMonitor = &GlfwGetPrimaryMonitor;
+    private static delegate* unmanaged<IntPtr, int, int, void> _glfwSetWindowPosDelegate = &glfwSetWindowPos;
 
-    private static readonly delegate* <IntPtr, IntPtr> _glfwGetVideoMode = &GlfwGetVideoMode;
+    private static delegate* unmanaged<IntPtr, int, int, void> _glfwSetWindowSizeDelegate = &glfwSetWindowSize;
 
-    private static readonly delegate* <IntPtr, IntPtr, void> _glfwSetKeyCallback = &GlfwSetKeyCallback;
+    private static delegate* unmanaged<IntPtr> _glfwGetPrimaryMonitorDelegate = &glfwGetPrimaryMonitor;
 
-    private static readonly delegate* <IntPtr, IntPtr, void> _glfwSetCharCallback = &GlfwSetCharCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr> _glfwGetVideoModeDelegate = &glfwGetVideoMode;
 
-    private static readonly delegate* <IntPtr, IntPtr, void> _glfwSetCursorPositionCallback =
-        &GlfwSetCursorPositionCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetKeyCallbackDelegate = &glfwSetKeyCallback;
 
-    private static readonly delegate* <IntPtr, IntPtr, void> _glfwSetCursorEnterCallback = &GlfwSetCursorEnterCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCharCallbackDelegate = &glfwSetCharCallback;
 
-    private static readonly delegate* <IntPtr, IntPtr, void> _glfwSetMouseButtonCallback = &GlfwSetMouseButtonCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCursorPositionCallbackDelegate =
+        &glfwSetCursorPositionCallback;
 
-    private static readonly delegate* <IntPtr, IntPtr, void>
-        _glfwSetWindowSizeCallback = &GlfwSetWindowSizeCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCursorEnterCallbackDelegate = &glfwSetCursorEnterCallback;
 
-    private static readonly delegate* <IntPtr, IntPtr, void> _glfwSetFramebufferSizeCallback =
-        &GlfwSetFramebufferSizeCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetMouseButtonCallbackDelegate = &glfwSetMouseButtonCallback;
 
-    private static readonly delegate* <IntPtr, int*, int*, void> _glfwGetFramebufferSize = &GlfwGetFramebufferSize;
+    private static delegate* unmanaged<IntPtr, IntPtr, void>
+        _glfwSetWindowSizeCallbackDelegate = &glfwSetWindowSizeCallback;
 
-    private static readonly delegate* <double> _glfwGetTime = &GlfwGetTime;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetFramebufferSizeCallbackDelegate =
+        &glfwSetFramebufferSizeCallback;
 
-    private static readonly delegate* <IntPtr, double, double, void> _glfwSetCursorPos = &GlfwSetCursorPos;
+    private static delegate* unmanaged<IntPtr, int*, int*, void> _glfwGetFramebufferSizeDelegate = &glfwGetFramebufferSize;
 
-    private static readonly delegate* <IntPtr, Key, KeyAction> _glfwGetKey = &GlfwGetKey;
+    private static delegate* unmanaged<double> _glfwGetTimeDelegate = &glfwGetTime;
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetCursorPos")]
-    private static extern void GlfwSetCursorPos(IntPtr windowHandle, double x, double y);
+    private static delegate* unmanaged<IntPtr, double, double, void> _glfwSetCursorPosDelegate = &glfwSetCursorPos;
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetKey")]
-    private static extern KeyAction GlfwGetKey(IntPtr windowHandle, Key key);
+    private static delegate* unmanaged<IntPtr, Key, KeyAction> _glfwGetKeyDelegate = &glfwGetKey;
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwInit")]
-    private static extern int GlfwInit();
+    [UnmanagedCallersOnly]
+    private static int glfwInit()
+    {
+        _glfwInitDelegate = (delegate* unmanaged<int>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwInit));
+        return _glfwInitDelegate();
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwTerminate")]
-    private static extern void GlfwTerminate();
+    [UnmanagedCallersOnly]
+    private static void glfwSetCursorPos(IntPtr windowHandle, double x, double y)
+    {
+        _glfwSetCursorPosDelegate =
+            (delegate* unmanaged<IntPtr, double, double, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwSetCursorPos));
+        _glfwSetCursorPosDelegate(windowHandle, x, y);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwRawMouseMotionSupported")]
-    private static extern bool GlfwRawMouseMotionSupported();
+    [UnmanagedCallersOnly]
+    private static KeyAction glfwGetKey(IntPtr windowHandle, Key key)
+    {
+        _glfwGetKeyDelegate = (delegate* unmanaged<IntPtr, Key, KeyAction>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwGetKey));
+        return _glfwGetKeyDelegate(windowHandle, key);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetInputMode")]
-    private static extern void GlfwSetInputMode(IntPtr windowHandle, InputMode mode, int value);
+    [UnmanagedCallersOnly]
+    private static void glfwTerminate()
+    {
+        _glfwTerminateDelegate = (delegate* unmanaged<void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwTerminate));
+        _glfwTerminateDelegate();
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetCursorPos")]
-    private static extern void GlfwGetCursorPos(
+    [UnmanagedCallersOnly]
+    private static bool glfwRawMouseMotionSupported()
+    {
+        _glfwRawMouseMotionSupportedDelegate = (delegate* unmanaged<bool>)NativeLibrary.GetExport(_glfwLibraryHandle,
+            nameof(glfwRawMouseMotionSupported));
+        return _glfwRawMouseMotionSupportedDelegate();
+    }
+
+    [UnmanagedCallersOnly]
+    private static void glfwSetInputMode(IntPtr windowHandle, InputMode mode, int value)
+    {
+        _glfwSetInputModeDelegate = (delegate* unmanaged<IntPtr, InputMode, int, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwSetInputMode));
+        _glfwSetInputModeDelegate(windowHandle, mode, value);
+    }
+
+    [UnmanagedCallersOnly]
+    private static void glfwGetCursorPos(
         IntPtr windowHandle,
         double* x,
-        double* y);
+        double* y)
+    {
+        _glfwGetCursorPosDelegate = (delegate* unmanaged<IntPtr, double*, double*, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwGetCursorPos));
+        _glfwGetCursorPosDelegate(windowHandle, x, y);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwWindowHint")]
-    private static extern void GlfwWindowHint(
+    [UnmanagedCallersOnly]
+    private static void glfwWindowHint(
         int hint,
-        int value);
+        int value)
+    {
+        _glfwWindowHintDelegate = (delegate* unmanaged<int, int, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwWindowHint));
+        _glfwWindowHintDelegate(hint, value);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwCreateWindow")]
-    private static extern IntPtr GlfwCreateWindow(
+    [UnmanagedCallersOnly]
+    private static IntPtr glfwCreateWindow(
         int width,
         int height,
         IntPtr windowTitle,
         IntPtr monitorHandle,
-        IntPtr sharedHandle);
+        IntPtr sharedHandle)
+    {
+        _glfwCreateWindowDelegate = (delegate* unmanaged<int, int, IntPtr, IntPtr, IntPtr, IntPtr>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwCreateWindow));
+        return _glfwCreateWindowDelegate(width, height, windowTitle, monitorHandle, sharedHandle);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwDestroyWindow")]
-    private static extern void GlfwDestroyWindow(IntPtr windowHandle);
+    [UnmanagedCallersOnly]
+    private static void glfwDestroyWindow(IntPtr windowHandle)
+    {
+        _glfwDestroyWindowDelegate = (delegate* unmanaged<IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwDestroyWindow));
+        _glfwDestroyWindowDelegate(windowHandle);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwWindowShouldClose")]
-    private static extern int GlfwWindowShouldClose(IntPtr windowHandle);
+    [UnmanagedCallersOnly]
+    private static int glfwWindowShouldClose(IntPtr windowHandle)
+    {
+        _glfwWindowShouldCloseDelegate = (delegate* unmanaged<IntPtr, int>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwWindowShouldClose));
+        return _glfwWindowShouldCloseDelegate(windowHandle);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetWindowShouldClose")]
-    private static extern void GlfwSetWindowShouldClose(IntPtr windowHandle, int closeFlag);
+    [UnmanagedCallersOnly]
+    private static void glfwSetWindowShouldClose(IntPtr windowHandle, int closeFlag)
+    {
+        _glfwSetWindowShouldCloseDelegate = (delegate* unmanaged<IntPtr, int, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+            nameof(glfwSetWindowShouldClose));
+        _glfwSetWindowShouldCloseDelegate(windowHandle, closeFlag);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwPollEvents")]
-    private static extern void GlfwPollEvents();
+    [UnmanagedCallersOnly]
+    private static void glfwPollEvents()
+    {
+        _glfwPollEventsDelegate = (delegate* unmanaged<void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwPollEvents));
+        _glfwPollEventsDelegate();
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwWaitEventsTimeout")]
-    private static extern void GlfwWaitEventsTimeout(double timeout);
+    [UnmanagedCallersOnly]
+    private static void glfwWaitEventsTimeout(double timeout)
+    {
+        _glfwWaitEventsTimeoutDelegate = (delegate* unmanaged<double, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwWaitEventsTimeout));
+        _glfwWaitEventsTimeoutDelegate(timeout);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSwapBuffers")]
-    private static extern void GlfwSwapBuffers(IntPtr windowHandle);
+    [UnmanagedCallersOnly]
+    private static void glfwSwapBuffers(IntPtr windowHandle)
+    {
+        _glfwSwapBuffersDelegate = (delegate* unmanaged<IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwSwapBuffers));
+        _glfwSwapBuffersDelegate(windowHandle);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetProcAddress")]
-    private static extern IntPtr GlfwGetProcAddress(IntPtr functionName);
+    [UnmanagedCallersOnly]
+    private static IntPtr glfwGetProcAddress(IntPtr functionName)
+    {
+        _glfwGetProcAddressDelegate =
+            (delegate* unmanaged<IntPtr, IntPtr>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwGetProcAddress));
+        return _glfwGetProcAddressDelegate(functionName);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwMakeContextCurrent")]
-    private static extern void GlfwMakeContextCurrent(IntPtr windowHandle);
+    [UnmanagedCallersOnly]
+    private static void glfwMakeContextCurrent(IntPtr windowHandle)
+    {
+        _glfwMakeContextCurrentDelegate = (delegate* unmanaged<IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwMakeContextCurrent));
+        _glfwMakeContextCurrentDelegate(windowHandle);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSwapInterval")]
-    private static extern void GlfwSwapInterval(int interval);
+    [UnmanagedCallersOnly]
+    private static void glfwSwapInterval(int interval)
+    {
+        _glfwSwapIntervalDelegate = (delegate* unmanaged<int, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwSwapInterval));
+        _glfwSwapIntervalDelegate(interval);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetWindowPos")]
-    private static extern void GlfwSetWindowPos(
+    [UnmanagedCallersOnly]
+    private static void glfwSetWindowPos(
         IntPtr windowHandle,
         int left,
-        int top);
+        int top)
+    {
+        _glfwSetWindowPosDelegate = (delegate* unmanaged<IntPtr, int, int, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwSetWindowPos));
+        _glfwSetWindowPosDelegate(windowHandle, left, top);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetWindowSize")]
-    private static extern void GlfwSetWindowSize(
+    [UnmanagedCallersOnly]
+    private static void glfwSetWindowSize(
         IntPtr windowHandle,
         int width,
-        int height);
+        int height)
+    {
+        _glfwSetWindowSizeDelegate =
+            (delegate* unmanaged<IntPtr, int, int, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwSetWindowSize));
+        _glfwSetWindowSizeDelegate(windowHandle, width, height);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetPrimaryMonitor")]
-    private static extern IntPtr GlfwGetPrimaryMonitor();
+    [UnmanagedCallersOnly]
+    private static IntPtr glfwGetPrimaryMonitor()
+    {
+        _glfwGetPrimaryMonitorDelegate =
+            (delegate* unmanaged<IntPtr>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwGetPrimaryMonitor));
+        return _glfwGetPrimaryMonitorDelegate();
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetVideoMode")]
-    private static extern IntPtr GlfwGetVideoMode(IntPtr monitorHandle);
+    [UnmanagedCallersOnly]
+    private static IntPtr glfwGetVideoMode(IntPtr monitorHandle)
+    {
+        _glfwGetVideoModeDelegate =
+            (delegate* unmanaged<IntPtr, IntPtr>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwGetVideoMode));
+        return _glfwGetVideoModeDelegate(monitorHandle);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetKeyCallback")]
-    private static extern void GlfwSetKeyCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetKeyCallback(
         IntPtr windowHandle,
-        IntPtr keyCallback);
+        IntPtr keyCallback)
+    {
+        _glfwSetKeyCallbackDelegate =
+            (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwSetKeyCallback));
+        _glfwSetKeyCallbackDelegate(windowHandle, keyCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetCharCallback")]
-    private static extern void GlfwSetCharCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetCharCallback(
         IntPtr windowHandle,
-        IntPtr charCallback);
+        IntPtr charCallback)
+    {
+        _glfwSetCharCallbackDelegate =
+            (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwSetCharCallback));
+        _glfwSetCharCallbackDelegate(windowHandle, charCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetCursorPosCallback")]
-    private static extern void GlfwSetCursorPositionCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetCursorPositionCallback(
         IntPtr windowHandle,
-        IntPtr cursorPositionCallback);
+        IntPtr cursorPositionCallback)
+    {
+        _glfwSetCursorPositionCallbackDelegate = (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(
+            _glfwLibraryHandle,
+            nameof(glfwSetCursorPositionCallback));
+        _glfwSetCursorPositionCallbackDelegate(windowHandle, cursorPositionCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetCursorEnterCallback")]
-    private static extern void GlfwSetCursorEnterCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetCursorEnterCallback(
         IntPtr windowHandle,
-        IntPtr cursorEnterCallback);
+        IntPtr cursorEnterCallback)
+    {
+        _glfwSetCursorEnterCallbackDelegate = (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+            nameof(glfwSetCursorEnterCallback));
+        _glfwSetCursorEnterCallbackDelegate(windowHandle, cursorEnterCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetMouseButtonCallback")]
-    private static extern void GlfwSetMouseButtonCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetMouseButtonCallback(
         IntPtr windowHandle,
-        IntPtr mouseButtonCallback);
+        IntPtr mouseButtonCallback)
+    {
+        _glfwSetMouseButtonCallbackDelegate = (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+            nameof(glfwSetMouseButtonCallback));
+        _glfwSetMouseButtonCallbackDelegate(windowHandle, mouseButtonCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetWindowSizeCallback")]
-    private static extern void GlfwSetWindowSizeCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetWindowSizeCallback(
         IntPtr windowHandle,
-        IntPtr windowSizeCallback);
+        IntPtr windowSizeCallback)
+    {
+        _glfwSetWindowSizeCallbackDelegate = (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+            nameof(glfwSetWindowSizeCallback));
+        _glfwSetWindowSizeCallbackDelegate(windowHandle, windowSizeCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwSetFramebufferSizeCallback")]
-    private static extern void GlfwSetFramebufferSizeCallback(
+    [UnmanagedCallersOnly]
+    private static void glfwSetFramebufferSizeCallback(
         IntPtr windowHandle,
-        IntPtr framebufferSizeCallback);
+        IntPtr framebufferSizeCallback)
+    {
+        _glfwSetFramebufferSizeCallbackDelegate =
+            (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwSetFramebufferSizeCallback));
+        _glfwSetFramebufferSizeCallbackDelegate(windowHandle, framebufferSizeCallback);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetFramebufferSize")]
-    private static extern void GlfwGetFramebufferSize(IntPtr windowHandle, int* width, int* height);
+    [UnmanagedCallersOnly]
+    private static void glfwGetFramebufferSize(IntPtr windowHandle, int* width, int* height)
+    {
+        _glfwGetFramebufferSizeDelegate =
+            (delegate* unmanaged<IntPtr, int*, int*, void>)NativeLibrary.GetExport(_glfwLibraryHandle,
+                nameof(glfwGetFramebufferSize));
+        _glfwGetFramebufferSizeDelegate(windowHandle, width, height);
+    }
 
-    [DllImport(GlfwLibrary, EntryPoint = "glfwGetTime")]
-    private static extern double GlfwGetTime();
+    [UnmanagedCallersOnly]
+    private static double glfwGetTime()
+    {
+        _glfwGetTimeDelegate =
+            (delegate* unmanaged<double>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwGetTime));
+        return _glfwGetTimeDelegate();
+    }
 }
