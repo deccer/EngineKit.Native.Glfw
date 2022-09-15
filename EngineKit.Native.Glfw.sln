@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineKit.Native.Glfw.UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineKit.Native.Glfw", "src\EngineKit.Native.Glfw\EngineKit.Native.Glfw.csproj", "{DDE089D4-879E-4065-92A1-ACDD828AFF0A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{3FEBE5B2-226F-41B1-847D-D1B010152804}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineKit.Native.Glfw.HelloWindow", "examples\EngineKit.Native.Glfw.HelloWindow\EngineKit.Native.Glfw.HelloWindow.csproj", "{B469EBB3-B1B3-4F58-8132-845EBBD2C6D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{14B0A4F6-81CF-4427-AA39-5C54CCF22BB8} = {D8FDD221-308F-4FAE-A90A-B5B6C467DB1F}
 		{DDE089D4-879E-4065-92A1-ACDD828AFF0A} = {D8FDD221-308F-4FAE-A90A-B5B6C467DB1F}
+		{B469EBB3-B1B3-4F58-8132-845EBBD2C6D9} = {3FEBE5B2-226F-41B1-847D-D1B010152804}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{14B0A4F6-81CF-4427-AA39-5C54CCF22BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,5 +38,9 @@ Global
 		{DDE089D4-879E-4065-92A1-ACDD828AFF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDE089D4-879E-4065-92A1-ACDD828AFF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDE089D4-879E-4065-92A1-ACDD828AFF0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B469EBB3-B1B3-4F58-8132-845EBBD2C6D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B469EBB3-B1B3-4F58-8132-845EBBD2C6D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B469EBB3-B1B3-4F58-8132-845EBBD2C6D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B469EBB3-B1B3-4F58-8132-845EBBD2C6D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
