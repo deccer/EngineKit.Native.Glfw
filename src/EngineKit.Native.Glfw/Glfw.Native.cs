@@ -49,8 +49,8 @@ public static unsafe partial class Glfw
 
     private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCharCallbackDelegate = &glfwSetCharCallback;
 
-    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCursorPositionCallbackDelegate =
-        &glfwSetCursorPositionCallback;
+    private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCursorPosCallbackDelegate =
+        &glfwSetCursorPosCallback;
 
     private static delegate* unmanaged<IntPtr, IntPtr, void> _glfwSetCursorEnterCallbackDelegate = &glfwSetCursorEnterCallback;
 
@@ -273,14 +273,14 @@ public static unsafe partial class Glfw
     }
 
     [UnmanagedCallersOnly]
-    private static void glfwSetCursorPositionCallback(
+    private static void glfwSetCursorPosCallback(
         IntPtr windowHandle,
         IntPtr cursorPositionCallback)
     {
-        _glfwSetCursorPositionCallbackDelegate = (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(
+        _glfwSetCursorPosCallbackDelegate = (delegate* unmanaged<IntPtr, IntPtr, void>)NativeLibrary.GetExport(
             _glfwLibraryHandle,
-            nameof(glfwSetCursorPositionCallback));
-        _glfwSetCursorPositionCallbackDelegate(windowHandle, cursorPositionCallback);
+            nameof(glfwSetCursorPosCallback));
+        _glfwSetCursorPosCallbackDelegate(windowHandle, cursorPositionCallback);
     }
 
     [UnmanagedCallersOnly]
