@@ -41,7 +41,7 @@
         </Content>
         <Content Include="..\..\lib\glfw\glfw3.dll">
             <Pack>true</Pack>
-            <PackagePath></PackagePath>
+            <PackagePath>runtime\win-x64\native</PackagePath>
             <Link>glfw3.dll</Link>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

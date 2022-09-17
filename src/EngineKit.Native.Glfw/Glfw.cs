@@ -13,7 +13,7 @@ public static unsafe partial class Glfw
     {
         if (!_glfwLibraryLoaded)
         {
-            var libraryName = "glfw3";
+            var libraryName = "./runtimes/win-x64/native/glfw3.dll";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 libraryName = "libglfw.3.dylib";
