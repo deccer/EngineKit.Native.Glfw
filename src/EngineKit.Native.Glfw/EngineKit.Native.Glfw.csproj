@@ -49,8 +49,6 @@
         </Content>
         <Content Include="..\..\README.md">
             <Pack>true</Pack>
-            <Link>README.md</Link>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <Visible>false</Visible>
         </Content>
     </ItemGroup>
