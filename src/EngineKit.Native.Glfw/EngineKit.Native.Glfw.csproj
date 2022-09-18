@@ -34,15 +34,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!--
         <Content Include="..\..\lib\glfw\glfw3.dll" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'">
             <Link>glfw3.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>
+        -->
         <Content Include="..\..\lib\glfw\glfw3.dll">
             <Pack>true</Pack>
-            <PackagePath>runtime\win-x64\native</PackagePath>
-            <Link>glfw3.dll</Link>
+            <PackagePath>runtime\win-x64\native\</PackagePath>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
