@@ -296,6 +296,14 @@ public static unsafe partial class Glfw
         _glfwSetFramebufferSizeCallbackDelegate(windowHandle, framebufferSizeCallbackPtr);
     }
 
+    public static void SetErrorCallback(ErrorCallback? errorCallback)
+    {
+        var errorCallbackPtr = errorCallback == null
+            ? IntPtr.Zero
+            : Marshal.GetFunctionPointerForDelegate(errorCallback);
+        _glfwSetErrorCallbackDelegate(errorCallbackPtr);
+    }
+
     public static float GetTime()
     {
         return (float)_glfwGetTimeDelegate();

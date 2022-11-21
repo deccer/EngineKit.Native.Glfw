@@ -39,4 +39,8 @@ public static partial class Glfw
         IntPtr windowHandle,
         int width,
         int height);
+    
+    public delegate void ErrorCallback(
+        ErrorCode error,
+        string description);
 }

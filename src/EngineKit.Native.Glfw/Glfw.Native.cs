@@ -69,6 +69,15 @@ public static unsafe partial class Glfw
     private static delegate* unmanaged<IntPtr, double, double, void> _glfwSetCursorPosDelegate = &glfwSetCursorPos;
 
     private static delegate* unmanaged<IntPtr, Key, KeyAction> _glfwGetKeyDelegate = &glfwGetKey;
+    
+    private static delegate* unmanaged<IntPtr, void> _glfwSetErrorCallbackDelegate = &glfwSetErrorCallback;
+
+    [UnmanagedCallersOnly]
+    private static void glfwSetErrorCallback(IntPtr callback)
+    {
+        _glfwSetErrorCallbackDelegate = (delegate* unmanaged<IntPtr, void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwSetErrorCallback));
+        _glfwSetErrorCallbackDelegate(callback);
+    }
 
     [UnmanagedCallersOnly]
     private static int glfwInit()
