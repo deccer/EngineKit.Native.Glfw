@@ -9,6 +9,8 @@ internal class Program
             return;
         }
 
+        Glfw.SetErrorCallback((errorCode, errorDescription) => { Console.WriteLine($"{errorCode} - {errorDescription}"); });
+
         var primaryMonitor = Glfw.GetPrimaryMonitor();
         var primaryMonitorResolution = Glfw.GetVideoMode(primaryMonitor);
 
