@@ -9,7 +9,7 @@ public static unsafe partial class Glfw
 
     private static delegate* unmanaged<void> _glfwTerminateDelegate = &glfwTerminate;
 
-    private static delegate* unmanaged<bool> _glfwRawMouseMotionSupportedDelegate = &glfwRawMouseMotionSupported;
+    private static delegate* unmanaged<int> _glfwRawMouseMotionSupportedDelegate = &glfwRawMouseMotionSupported;
 
     private static delegate* unmanaged<IntPtr, InputMode, int, void> _glfwSetInputModeDelegate = &glfwSetInputMode;
 
@@ -69,7 +69,7 @@ public static unsafe partial class Glfw
     private static delegate* unmanaged<IntPtr, double, double, void> _glfwSetCursorPosDelegate = &glfwSetCursorPos;
 
     private static delegate* unmanaged<IntPtr, Key, KeyAction> _glfwGetKeyDelegate = &glfwGetKey;
-    
+
     private static delegate* unmanaged<IntPtr, void> _glfwSetErrorCallbackDelegate = &glfwSetErrorCallback;
 
     [UnmanagedCallersOnly]
@@ -110,9 +110,9 @@ public static unsafe partial class Glfw
     }
 
     [UnmanagedCallersOnly]
-    private static bool glfwRawMouseMotionSupported()
+    private static int glfwRawMouseMotionSupported()
     {
-        _glfwRawMouseMotionSupportedDelegate = (delegate* unmanaged<bool>)NativeLibrary.GetExport(_glfwLibraryHandle,
+        _glfwRawMouseMotionSupportedDelegate = (delegate* unmanaged<int>)NativeLibrary.GetExport(_glfwLibraryHandle,
             nameof(glfwRawMouseMotionSupported));
         return _glfwRawMouseMotionSupportedDelegate();
     }

@@ -9,30 +9,39 @@ public static unsafe partial class Glfw
     private static IntPtr _glfwLibraryHandle;
     private static bool _glfwLibraryLoaded;
 
+    public const int True = 1;
+    public const int False = 0;
+
+    public const int CursorNormal = 0x00034001;
+    public const int CursorHidden = 0x00034002;
+    public const int CursorDisabled = 0x00034003;
+
     public static bool Init()
     {
-        if (!_glfwLibraryLoaded)
+        if (_glfwLibraryLoaded)
         {
-            var libraryName = "./runtimes/win-x64/native/glfw3.dll";
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                libraryName = "libglfw.3.dylib";
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                libraryName = "libglfw.so.3";
-            }
-
-            if (!NativeLibrary.TryLoad(libraryName, out _glfwLibraryHandle))
-            {
-                Debug.WriteLine($"GLFW: Unable to load {libraryName}");
-                return false;
-            }
-
-            _glfwLibraryLoaded = true;
+            return _glfwInitDelegate() == True;
         }
 
-        return _glfwInitDelegate() == 1;
+        var libraryName = "./runtimes/win-x64/native/glfw3.dll";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            libraryName = "libglfw.3.dylib";
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            libraryName = "libglfw.so.3";
+        }
+
+        if (!NativeLibrary.TryLoad(libraryName, out _glfwLibraryHandle))
+        {
+            Debug.WriteLine($"GLFW: Unable to load {libraryName}");
+            return false;
+        }
+
+        _glfwLibraryLoaded = true;
+
+        return _glfwInitDelegate() == True;
     }
 
     public static void Terminate()
@@ -46,7 +55,7 @@ public static unsafe partial class Glfw
 
     public static bool IsRawMouseMotionSupported()
     {
-        return _glfwRawMouseMotionSupportedDelegate();
+        return _glfwRawMouseMotionSupportedDelegate() == True;
     }
 
     public static KeyAction GetKey(IntPtr windowHandle, Key key)
@@ -92,7 +101,7 @@ public static unsafe partial class Glfw
         WindowInitHint windowInitHint,
         bool value)
     {
-        _glfwWindowHintDelegate((int)windowInitHint, value ? 1 : 0);
+        _glfwWindowHintDelegate((int)windowInitHint, value ? True : False);
     }
 
     public static void WindowHint(
@@ -120,7 +129,7 @@ public static unsafe partial class Glfw
         WindowOpenGLContextHint openglContextHint,
         bool value)
     {
-        _glfwWindowHintDelegate((int)openglContextHint, value ? 1 : 0);
+        _glfwWindowHintDelegate((int)openglContextHint, value ? True : False);
     }
 
     public static void WindowHint(
@@ -155,7 +164,7 @@ public static unsafe partial class Glfw
 
     public static bool ShouldWindowClose(IntPtr windowHandle)
     {
-        return _glfwWindowShouldCloseDelegate(windowHandle) == 1;
+        return _glfwWindowShouldCloseDelegate(windowHandle) == True;
     }
 
     public static void SetWindowShouldClose(
