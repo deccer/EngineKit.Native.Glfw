@@ -58,6 +58,15 @@ public static unsafe partial class Glfw
         return _glfwRawMouseMotionSupportedDelegate() == True;
     }
 
+    public static bool IsExtensionSupported(string extensionName)
+    {
+        var extensionNamePtr = Marshal.StringToHGlobalAnsi(extensionName);
+        var result = _glfwExtensionSupported(extensionNamePtr);
+        Marshal.FreeHGlobal(extensionNamePtr);
+
+        return result == True;
+    }
+
     public static KeyAction GetKey(IntPtr windowHandle, Key key)
     {
         return _glfwGetKeyDelegate(windowHandle, key);

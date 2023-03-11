@@ -9,6 +9,8 @@ public static unsafe partial class Glfw
 
     private static delegate* unmanaged<void> _glfwTerminateDelegate = &glfwTerminate;
 
+    private static delegate* unmanaged<nint, int> _glfwExtensionSupported = &glfwExtensionSupported;
+
     private static delegate* unmanaged<int> _glfwRawMouseMotionSupportedDelegate = &glfwRawMouseMotionSupported;
 
     private static delegate* unmanaged<IntPtr, InputMode, int, void> _glfwSetInputModeDelegate = &glfwSetInputMode;
@@ -106,7 +108,17 @@ public static unsafe partial class Glfw
     private static void glfwTerminate()
     {
         _glfwTerminateDelegate = (delegate* unmanaged<void>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwTerminate));
-        _glfwTerminateDelegate();
+        if (_glfwTerminateDelegate != null)
+        {
+            _glfwTerminateDelegate();
+        }
+    }
+
+    [UnmanagedCallersOnly]
+    private static int glfwExtensionSupported(nint extensionName)
+    {
+        _glfwExtensionSupported = (delegate* unmanaged<nint, int>)NativeLibrary.GetExport(_glfwLibraryHandle, nameof(glfwExtensionSupported));
+        return _glfwExtensionSupported(extensionName);
     }
 
     [UnmanagedCallersOnly]
