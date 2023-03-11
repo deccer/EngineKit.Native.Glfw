@@ -35,6 +35,7 @@ public static partial class Glfw
         ScaleToMonitor = 0x0002200C,
         DoubleBuffer = 0x00021010,
         ClientApi = 0x00022001,
+        RefreshRate = 0x0002100F
     }
 
     public enum WindowOpenGLContextHint
@@ -44,6 +45,19 @@ public static partial class Glfw
         ForwardCompatible = 0x00022006,
         DebugContext = 0x00022007,
         Profile = 0x00022008,
+    }
+
+    public enum FramebufferInitHint
+    {
+        RedBits = 0x00021001,
+        GreenBits = 0x00021002,
+        BlueBits = 0x00021003,
+        AlphaBits = 0x00021004,
+        DepthBits = 0x00021005,
+        StencilBits = 0x00021006,
+        Stereo = 0x0002100C,
+        Samples = 0x0002100D,
+        SrgbCapable = 0x0002100E
     }
 
     public enum OpenGLProfile

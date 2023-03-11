@@ -128,6 +128,20 @@ public static unsafe partial class Glfw
     }
 
     public static void WindowHint(
+        FramebufferInitHint framebufferInitHint,
+        int value)
+    {
+        _glfwWindowHintDelegate((int)framebufferInitHint, value);
+    }
+    
+    public static void WindowHint(
+        FramebufferInitHint framebufferInitHint,
+        bool value)
+    {
+        _glfwWindowHintDelegate((int)framebufferInitHint, value ? True : False);
+    }
+
+    public static void WindowHint(
         WindowOpenGLContextHint openglContextHint,
         int value)
     {
